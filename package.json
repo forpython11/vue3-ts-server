@@ -1,0 +1,28 @@
+{
+  "name": "vue-ts-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node-dev app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-jwt": "^8.4.1",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.29.4",
+    "mysql2": "^3.9.7",
+    "node-dev": "^7.4.3",
+    "redis": "^3.1.2",
+    "sequelize": "^6.37.3",
+    "svg-captcha": "^1.4.0"
+  }
+}
