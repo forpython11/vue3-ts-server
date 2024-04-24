@@ -125,6 +125,7 @@ exports.addUser = (req, res) => {
  * 获取图形验证码
  */
 exports.getCheckCode = (req, res) => {
+    console.log(req, res, '000')
     // 生成验证码，获取catcha，有{data,text}两个属性，data为svg格式图片、text为验证码
     const captcha = svgCaptcha.create({
         size: 4,
