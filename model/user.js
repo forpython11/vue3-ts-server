@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const moment = require('moment');
 const sequelize = require('./init');
-// 定义表的模型 define方法第一个参数为表名，第二个参数为表字段对象
+// 定义表的模型 define方法第一个参数为表名，第二个参数为表字段对象  
 const UsersModel = sequelize.define('users', {
     user_id: {
         // 数据类型
