@@ -3,12 +3,12 @@
  */
 // 引入用户模型
 const UsersModel = require('../model/user');
-
 // 1. 导入需要的验证规则对象
 const {
     user_login_schema,
     add_user_schema,
-    get_list
+    get_list,
+    update_user_schema
 } = require('../schema/user');
 // 导入bcryptjs加密模块（添加用户时为密码加密）
 const bcrypt = require('bcryptjs');
@@ -20,6 +20,9 @@ const redis = require('../utils/redis.js');
 // 引入封装好的token模块和配置信息
 const { addToken, decodedToken, verifyToken } = require('../utils/token');
 const key = require('../config/index');
+// sequelize的Op模块 https://www.sequelize.cn/core-concepts/model-querying-basics
+// 它可以用来执行一些sql操作，例如[Op.and]相当于数据库连接语句的and，[Op.or]相当于or等
+const { Op } = require('sequelize');
 
 // 登录路由的处理函数
 exports.login = async (req, res) => {
@@ -240,6 +243,58 @@ exports.getList = (req, res) => {
             message: '获取成功',
             data: users
         })
+    })
+}
+
+// 编辑用户信息
+exports.editUser = (req, res) => {
+    const user_id = req.params.id;
+    const { value, error } = update_user_schema.validate(req.body);
+    console.log(req.body, value, error, 'req')
+    if (error) throw error;
+    UsersModel.findAll({
+        where: {
+            // [Op.and]相当于数据库连接语句的and，[Op.or]相当于or等
+            [Op.and]: {
+                user_id: {
+                    // [Op.ne]: 20,  != 20
+                    [Op.ne]: user_id
+                },
+                username: {
+                    // [Op.eq]: 3, = 3
+                    [Op.eq]: value.username
+                }
+            },
+        }
+    }).then((result) => {
+        if (result && result.length)
+            return res.send({
+                code: 1,
+                message: '用户名被占用，请更换后重试',
+                data: null
+            })
+        else {
+            const result = UsersModel.update(value, {
+                where: {
+                    user_id: user_id
+                }
+            });
+            result.then(function (ret) {
+                if (ret) {
+                    return res.send({
+                        code: 0,
+                        message: '更改成功',
+                        data: ret
+                    })
+                } else {
+                    return res.send({
+                        code: 1,
+                        message: ret,
+                        data: null
+                    });
+                }
+            })
+        }
     })
 }
 

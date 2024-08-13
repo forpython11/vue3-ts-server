@@ -12,6 +12,7 @@ joi = joi.defaults((schema) =>
  * max(length) 最大长度
  * required() 值是必填项，不能为 undefined
  * pattern(正则表达式) 值必须符合正则表达式的规则
+ * email 邮箱校验
  */
 // 用户名的校验规则
 const username = joi.string().alphanum().min(1).max(10).required();
@@ -25,7 +26,9 @@ const uuid = joi.number().required();
 const nickname = joi.string().alphanum().min(1).max(10).required();
 const pageSize = joi.number().required()
 const currentPage = joi.number().required()
-const status = joi.number()
+const status = joi.number().valid(0, 1)
+const email = joi.string().email()
+
 // 登录表单的验证规则对象
 exports.user_login_schema = joi.object().keys({
     username,
@@ -45,4 +48,12 @@ exports.get_list = joi.object().keys({
     pageSize,
     currentPage,
     status
+})
+
+// 更新用户信息
+exports.update_user_schema = joi.object().keys({
+    username,
+    status,
+    nickname,
+    email
 })

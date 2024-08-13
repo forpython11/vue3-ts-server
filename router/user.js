@@ -18,4 +18,8 @@ router.post('/refreshToken', userHandler.refreshToken);
 
 // 获取用户列表
 router.get('/list', userHandler.getList)
+
+// 修改用户信息
+router.post('/editUser/:id', userHandler.editUser)
+
 module.exports = router
