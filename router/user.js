@@ -16,4 +16,6 @@ router.get('/checkCode', userHandler.getCheckCode);
 // 刷新token
 router.post('/refreshToken', userHandler.refreshToken);
 
+// 获取用户列表
+router.get('/list', userHandler.getList)
 module.exports = router

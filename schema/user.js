@@ -23,6 +23,9 @@ const password = joi
 const checkCode = joi.string().alphanum().min(4).max(4).required();
 const uuid = joi.number().required();
 const nickname = joi.string().alphanum().min(1).max(10).required();
+const pageSize = joi.number().required()
+const currentPage = joi.number().required()
+const status = joi.number()
 // 登录表单的验证规则对象
 exports.user_login_schema = joi.object().keys({
     username,
@@ -36,3 +39,10 @@ exports.add_user_schema = joi.object().keys({
     password,
     nickname
 });
+
+// 校验分页参数
+exports.get_list = joi.object().keys({
+    pageSize,
+    currentPage,
+    status
+})

@@ -8,6 +8,7 @@ const UsersModel = require('../model/user');
 const {
     user_login_schema,
     add_user_schema,
+    get_list
 } = require('../schema/user');
 // 导入bcryptjs加密模块（添加用户时为密码加密）
 const bcrypt = require('bcryptjs');
@@ -210,4 +211,35 @@ exports.refreshToken = (req, res) => {
     }
 };
 
+// 获取分页参数和接口字段
+exports.getList = (req, res) => {
+    const { value, error } = get_list.validate(req.query)
+    if (error) throw error;
+    // 接收前端参数
+    let { pageSize, currentPage } = req.query;
+    limit = pageSize ? Number(pageSize) : 10;
+    offset = currentPage ? Number(currentPage) : 1;
+    offset = (offset - 1) * pageSize;
+    let where = {};
+    let username = req.query.username;
+    let status = req.query.status;
+    if (username) {
+        where.username = { [Op.like]: `%${username}%` }
+    }
+    if (status === 0 || status === 1) {
+        where.status = { [Op.eq]: status };
+    }
+    UsersModel.findAndCountAll({
+        attributes: { exclude: ['password'] },
+        offset: offset,
+        limit: limit,
+        where: where
+    }).then(function (users) {
+        return res.send({
+            code: 0,
+            message: '获取成功',
+            data: users
+        })
+    })
+}
 
