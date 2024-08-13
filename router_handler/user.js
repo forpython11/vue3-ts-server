@@ -16,7 +16,9 @@ const bcrypt = require('bcryptjs');
 const svgCaptcha = require('svg-captcha')
 // 引入封装好的redis
 const redis = require('../utils/redis.js');
-
+// 引入封装好的token模块和配置信息
+const { addToken, decodedToken, verifyToken } = require('../utils/token');
+const key = require('../config/index');
 
 // 登录路由的处理函数
 exports.login = async (req, res) => {
@@ -61,17 +63,31 @@ exports.login = async (req, res) => {
                 data: null
             });
         } else {
-            if (password !== result.password) {
+            // 通过bcrypt库的compareSync进行解密比较
+            const compareResult = bcrypt.compareSync(password, result.password);
+            if (compareResult) {
+                // 用浏览器可识别的固定格式生成token
+                const token =
+                    'Bearer ' + addToken({ id: result.user_id, username: result.username }, key.jwtSecretKey, key.secretKeyExpire);
+                // 生成长时refreshToken
+                const refreshToken = addToken(
+                    { id: result.user_id, username: result.username },
+                    key.jwtRefrechSecretKey,
+                    key.refreshSerectKeyExpire
+                );
+                return res.send({
+                    code: 0,
+                    message: '登录成功',
+                    data: {
+                        token,
+                        refreshToken
+                    }
+                });
+            } else {
                 return res.send({
                     code: 1,
                     message: '密码错误',
-                    data: null
-                });
-            } else {
-                res.send({
-                    code: 0,
-                    message: '登录成功',
-                    data: result
+                    data: ''
                 });
             }
         }
@@ -164,6 +180,34 @@ exports.getCheckCode = (req, res) => {
         });
 };
 
-
+/**
+ * 刷新token
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.refreshToken = (req, res) => {
+    const { refreshToken } = req.body;
+    // 验证 refreshToken 1:通过
+    let _res = verifyToken(refreshToken);
+    if (_res === 1) {
+        // 对refreshToken进行解码获得id、username
+        let { id, username } = decodedToken(refreshToken);
+        // 生成新的token
+        const token = 'Bearer ' + addToken({ id, username }, key.jwtSecretKey, key.secretKeyExpire);
+        res.send({
+            code: 0,
+            message: '获取成功',
+            data: {
+                token,
+                refreshToken
+            }
+        });
+    } else {
+        res.send({
+            code: 500,
+            message: _res.message
+        });
+    }
+};
 
 

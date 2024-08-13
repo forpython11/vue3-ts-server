@@ -13,4 +13,7 @@ router.post('/addUser', userHandler.addUser);
 // 获取登录验证码
 router.get('/checkCode', userHandler.getCheckCode);
 
+// 刷新token
+router.post('/refreshToken', userHandler.refreshToken);
+
 module.exports = router
