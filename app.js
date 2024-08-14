@@ -1,3 +1,10 @@
+/*
+ * @Date: 2024-04-16 17:23:11
+ * @LastEditors: cproud1212 2411807384@qq.com
+ * @LastEditTime: 2024-08-14 13:18:44
+ * @FilePath: \vue3-ts-server\app.js
+ * @Description: cxx
+ */
 // 导入 express 模块
 const express = require("express")
 // 创建 express 的服务器实例
@@ -20,6 +27,8 @@ app.use(bodyParser.json());
 // 导入注册用户路由参数
 const userRouter = require('./router/user')
 app.use('/user', userRouter)
+const roleRouter = require('./router/role');
+app.use('/user/role', roleRouter);
 
 // 此段代码要放置在路由之后才可捕获到错误
 // 导入验证规则中间件
