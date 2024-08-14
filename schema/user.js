@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-04-22 11:03:03
  * @LastEditors: cproud1212 2411807384@qq.com
- * @LastEditTime: 2024-08-13 18:40:32
+ * @LastEditTime: 2024-08-14 15:29:20
  * @FilePath: \vue3-ts-server\schema\user.js
  * @Description: cxx
  */
@@ -35,8 +35,15 @@ const pageSize = joi.number().required()
 const currentPage = joi.number().required()
 const status = joi.number().valid(0, 1)
 const email = joi.string().email()
+
 // 数组中的项必须是数字
 const role_ids = joi.array().items(joi.number()).required();
+const user_ids = [
+    joi.array().items(joi.number()).required(),
+    joi.number().messages({
+      'any.required': '用户id必填'
+    })
+  ]
 // 登录表单的验证规则对象
 exports.user_login_schema = joi.object().keys({
     username,
@@ -67,3 +74,9 @@ exports.update_user_schema = joi.object().keys({
     email,
     role_ids     // 角色id数组
 })
+
+// 删除用户
+exports.delete_user_schema = joi.object().keys({
+    user_ids
+})
+  

@@ -10,7 +10,8 @@ const {
     user_login_schema,
     add_user_schema,
     get_list,
-    update_user_schema
+    update_user_schema,
+    delete_user_schema
 } = require('../schema/user');
 // 导入bcryptjs加密模块（添加用户时为密码加密）
 const bcrypt = require('bcryptjs');
@@ -360,24 +361,32 @@ exports.updateUser = async function (user_id, data) {
 }
 
 // 删除用户接口
-exports.deleteUser = async function (req, res) {
-    const user_ids = req.body.user_id;
-    UsersModel.delUser = async function (user_ids) {
-        const t = await sequelize.transaction();
-        try {
-            await UsersModel.destroy({
-                where: { user_id: user_ids }
-            });
-            await UserRolesModel.destroy({
-                where: { user_id: user_ids }
-            });
-            t.commit();
-            return true;
-        } catch (e) {
-            t.rollback();
-            return false;
+exports.deleteUser = (req, res, next) => {
+    const { value, error } = delete_user_schema.validate(req.body)
+    if (error) {
+        return next(error)
+    }
+    const user_ids = value.user_ids
+    if ((user_ids.length && user_ids.includes(1)) || user_ids === 1)
+        return res.send({
+            code: 1,
+            message: '超级管理员测试账号不可删除',
+            data: null
+        })
+    UsersModel.delUser(user_ids || []).then(function (user) {
+        if (user !== true) {
+            return res.send({
+                code: 1,
+                message: '删除失败',
+                data: null
+            })
         }
-    };
+        return res.send({
+            code: 0,
+            message: '删除成功',
+            data: user
+        })
+    })
 }
 
 // 根据用户id获取用户信息

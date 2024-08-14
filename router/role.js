@@ -20,4 +20,7 @@ router.post('/delRole', roleHandler.deleteRole);
 // 分页获取角色列表
 router.get('/listRole', roleHandler.getList)
 
+// 删除角色
+router.post('/delRole', roleHandler.deleteRole)
+
 module.exports = router

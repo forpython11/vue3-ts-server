@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-04-16 17:24:56
  * @LastEditors: cproud1212 2411807384@qq.com
- * @LastEditTime: 2024-08-14 14:20:29
+ * @LastEditTime: 2024-08-14 15:25:02
  * @FilePath: \vue3-ts-server\router\user.js
  * @Description: cxx
  */
@@ -10,7 +10,6 @@ const router = express.Router()
 
 // 导入用户路由处理函数模块
 const userHandler = require('../router_handler/user')
-const roleHandler = require('../router_handler/role')
 
 // 登录
 router.post('/login', userHandler.login)
@@ -31,6 +30,6 @@ router.get('/list', userHandler.getList)
 router.post('/editUser/:id', userHandler.editUser)
 
 // 删除用户
-router.post('/delRole', roleHandler.deleteRole)
+router.post('/delUser', userHandler.deleteUser);
 
 module.exports = router
