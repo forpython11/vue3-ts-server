@@ -1,3 +1,10 @@
+/*
+ * @Date: 2024-04-22 11:03:03
+ * @LastEditors: cproud1212 2411807384@qq.com
+ * @LastEditTime: 2024-08-13 18:40:32
+ * @FilePath: \vue3-ts-server\schema\user.js
+ * @Description: cxx
+ */
 let joi = require('joi');
 // 允许未设置规则的未知键
 joi = joi.defaults((schema) =>
@@ -28,7 +35,8 @@ const pageSize = joi.number().required()
 const currentPage = joi.number().required()
 const status = joi.number().valid(0, 1)
 const email = joi.string().email()
-
+// 数组中的项必须是数字
+const role_ids = joi.array().items(joi.number()).required();
 // 登录表单的验证规则对象
 exports.user_login_schema = joi.object().keys({
     username,
@@ -40,7 +48,8 @@ exports.user_login_schema = joi.object().keys({
 exports.add_user_schema = joi.object().keys({
     username,
     password,
-    nickname
+    nickname,
+    role_ids
 });
 
 // 校验分页参数
@@ -55,5 +64,6 @@ exports.update_user_schema = joi.object().keys({
     username,
     status,
     nickname,
-    email
+    email,
+    role_ids     // 角色id数组
 })

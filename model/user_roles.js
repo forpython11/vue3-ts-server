@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-08-13 17:17:33
  * @LastEditors: cproud1212 2411807384@qq.com
- * @LastEditTime: 2024-08-13 17:27:25
+ * @LastEditTime: 2024-08-14 14:32:53
  * @FilePath: \vue3-ts-server\model\user_roles.js
  * @Description: cxx
  */
@@ -11,7 +11,7 @@ const moment = require('moment')
 const sequelize = require('./init')
 
 // 定义表的模型
-const UsresRolesModel = sequelize.define('users_roles', {
+const UsreRolesModel = sequelize.define('users_roles', {
     user_role_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -32,4 +32,4 @@ const UsresRolesModel = sequelize.define('users_roles', {
     }
 })
 
-module.exports = UsresRolesModel
+module.exports = UsreRolesModel
