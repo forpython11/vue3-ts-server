@@ -264,7 +264,6 @@ exports.getList = (req, res, next) => {
 exports.editUser = (req, res) => {
     const user_id = req.params.id;
     const { value, error } = update_user_schema.validate(req.body);
-    console.log(req.body, value, error, 'req')
     if (error) throw error;
     UsersModel.findAll({
         where: {
@@ -312,7 +311,7 @@ exports.editUser = (req, res) => {
     })
 }
 
-// 修改角色的方法
+// 修改用户的方法
 exports.updateUser = async function (user_id, data) {
     // 开启事务
     const t = await sequelize.transaction();

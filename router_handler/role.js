@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-08-14 11:16:31
  * @LastEditors: cproud1212 2411807384@qq.com
- * @LastEditTime: 2024-08-14 15:19:56
+ * @LastEditTime: 2024-08-14 15:58:48
  * @FilePath: \vue3-ts-server\router_handler\role.js
  * @Description: cxx
  */
@@ -92,6 +92,31 @@ exports.getList = (req, res, next) => {
             code: 0,
             message: '获取成功',
             data: roles
+        })
+    })
+}
+
+// 编辑角色根据ID
+exports.editRole = (req, res, next) => {
+    const { value, error } = edit_role_schema.validate(req.body)
+    if (error) return next(error)
+    value.update_time = new Date()
+    RoleModel.update(value, {
+        where: {
+            role_id: value.role_id
+        }
+    }).then(function (role) {
+        if (!role) {
+            return res.send({
+                code: 1,
+                message: '修改失败',
+                data: null
+            })
+        }
+        return res.send({
+            code: 0,
+            message: '修改成功',
+            data: role
         })
     })
 }

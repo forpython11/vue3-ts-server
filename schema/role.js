@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-08-14 11:00:44
  * @LastEditors: cproud1212 2411807384@qq.com
- * @LastEditTime: 2024-08-14 13:15:31
+ * @LastEditTime: 2024-08-14 15:58:03
  * @FilePath: \vue3-ts-server\schema\role.js
  * @Description: cxx
  */
@@ -45,7 +45,8 @@ exports.get_role_list_schema = joi.object().keys({
 exports.edit_role_schema = joi.object().keys({
     role_name,
     remark,
-    status
+    status,
+    role_id
 })
 
 // 删除角色的验证规则对象

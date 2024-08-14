@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-08-14 11:11:02
  * @LastEditors: cproud1212 2411807384@qq.com
- * @LastEditTime: 2024-08-14 15:18:25
+ * @LastEditTime: 2024-08-14 15:42:05
  * @FilePath: \vue3-ts-server\router\role.js
  * @Description: cxx
  */
@@ -20,7 +20,7 @@ router.post('/delRole', roleHandler.deleteRole);
 // 分页获取角色列表
 router.get('/listRole', roleHandler.getList)
 
-// 删除角色
-router.post('/delRole', roleHandler.deleteRole)
+// 编辑角色
+router.post('/editRole',roleHandler.editRole)
 
 module.exports = router
