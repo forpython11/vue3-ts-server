@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-08-14 11:16:31
  * @LastEditors: cproud1212 2411807384@qq.com
- * @LastEditTime: 2024-08-14 14:28:40
+ * @LastEditTime: 2024-08-14 15:19:56
  * @FilePath: \vue3-ts-server\router_handler\role.js
  * @Description: cxx
  */
@@ -48,7 +48,7 @@ exports.deleteRole = (req, res) => {
             data: null
         })
     RoleModel.delRole(role_ids || []).then(function (role) {
-        console.log(role,'role')
+        console.log(role, 'role')
         if (role !== true) {
             return res.send({
                 code: 1,
@@ -63,4 +63,35 @@ exports.deleteRole = (req, res) => {
         })
     })
 
+}
+
+// 分页获取角色列表
+exports.getList = (req, res, next) => {
+    const { value, error } = get_role_list_schema.validate(req.query)
+    if (error) {
+        return next(error)
+    }
+    // 接收前端参数
+    let { pageSize, currentPage } = req.query;
+    limit = pageSize ? Number(pageSize) : 10;
+    offset = currentPage ? Number(currentPage) : 1;
+    offset = (offset - 1) * pageSize;
+    const { role_name, status } = value
+    let where = {};
+    // Op.like  包含role_name
+    if (role_name)
+        where.role_name = { [Op.like]: `%${role_name}%` }
+    if (status) where.status = { [Op.eq]: status }
+
+    RoleModel.findAndCountAll({
+        offset: offset,
+        limit: limit,
+        where: where
+    }).then(function (roles) {
+        return res.send({
+            code: 0,
+            message: '获取成功',
+            data: roles
+        })
+    })
 }

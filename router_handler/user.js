@@ -241,7 +241,6 @@ exports.getList = (req, res, next) => {
     if (status === '0' || status === '1')
         where.status = { [Op.eq]: status }
     UsersModel.findAndCountAll({
-        attributes: { exclude: ['password'] },
         // 预先加载是一次查询多个模型(一个"主"模型和一个或多个关联模型)的数据的行为. 在 SQL 级别上,这是具有一个或多个 join 的查询
         // 在 Sequelize 中,主要通过在模型查找器查询中使用 include 参数(例如,findOne, findAll 等)来完成预先加载
         // https://www.sequelize.cn/advanced-association-concepts/eager-loading
