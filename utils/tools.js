@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-08-13 18:18:08
  * @LastEditors: cproud1212 2411807384@qq.com
- * @LastEditTime: 2024-08-14 18:02:03
+ * @LastEditTime: 2024-08-15 17:04:59
  * @FilePath: \vue3-ts-server\utils\tools.js
  * @Description: cxx
  */
@@ -37,7 +37,7 @@ const minustArr = function (arr1 = [], arr2 = []) {
 }
  * type字段为'C'目录、'M'菜单、为'B'按钮
  * @param data 数据
- * @param level 父id层级
+ * @param level 父id层级  0代表没有父级
  * @param idField 字段名
  * @param pidField 上一级字段名
  * @returns {null|[]}

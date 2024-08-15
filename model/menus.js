@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-08-14 16:08:01
  * @LastEditors: cproud1212 2411807384@qq.com
- * @LastEditTime: 2024-08-14 18:02:59
+ * @LastEditTime: 2024-08-15 16:57:19
  * @FilePath: \vue3-ts-server\model\menus.js
  * @Description: cxx
  */
@@ -73,10 +73,10 @@ const MenusModel = sequelize.define('menus', {
     }
 });
 
-// 获得权限的树状数据结构
+// 获取权限的树状解构
 MenusModel.getListTree = async function (where = {}) {
     let menus = [];
-    // 查询数据库获取原数据
+    // 查询数据库获得元数据
     // 有标题入参时
     if (where.title) {
         menus = await MenusModel.findAll({
@@ -85,20 +85,20 @@ MenusModel.getListTree = async function (where = {}) {
                     [Op.like]: `%${where.title}%`
                 }
             },
-            order: [['sort']]//sort升序排列
-        })
+            order: [['sort']]
+        });
     } else {
         menus = await MenusModel.findAll({
             order: [['sort']]
-        })
+        });
     }
-    // 将原数据转成单纯的数据集
-    const menusArr = menus.map((item) => {
-        // 如果plain为true,则sequelize将仅返回结果集的第一条记录. 如果是false,它将返回所有记录.
-        return item.get({ plain: true })
-    })
-    // 将数据集转换成树状结构
-    return tools.getTreeData(menusArr, null, 'menu_id')
-}
+    // 将元数据转换为单纯的数据集
+    const menusArr = menus.map(function (item) {
+        return item.get({ plain: true });
+    });
+    // 将数据集转换为树状结构
+    return tools.getTreeData(menusArr, null, 'menu_id');
+};
+
 // 导出菜单模型
 module.exports = MenusModel;

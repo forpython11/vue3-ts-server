@@ -26,9 +26,13 @@ app.use(bodyParser.json());
 
 // 导入注册用户路由参数
 const userRouter = require('./router/user')
-app.use('/user', userRouter)
+app.use('/user', userRouter);
+
 const roleRouter = require('./router/role');
 app.use('/user/role', roleRouter);
+
+const menuRouter = require('./router/menu');
+app.use('/user/menu', menuRouter);
 
 // 此段代码要放置在路由之后才可捕获到错误
 // 导入验证规则中间件
