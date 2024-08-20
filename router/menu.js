@@ -17,4 +17,7 @@ router.get('/listMenu', handler.getMenuList);
 // 添加菜单
 router.post('/addMenu', handler.addMenu)
 
+// 获取菜单项
+router.get('/listMenuOptions',handler.getMenuOptions)
+
 module.exports = router
