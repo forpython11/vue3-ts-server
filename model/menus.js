@@ -1,13 +1,14 @@
 /*
  * @Date: 2024-08-14 16:08:01
  * @LastEditors: cproud1212 2411807384@qq.com
- * @LastEditTime: 2024-08-15 16:57:19
+ * @LastEditTime: 2024-08-19 16:26:31
  * @FilePath: \vue3-ts-server\model\menus.js
  * @Description: cxx
  */
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize')
 const moment = require('moment');
 const sequelize = require('./init');
+const RolesMenusModel = require('./roles_menus')
 const { Op } = Sequelize;
 
 const tools = require('../utils/tools')
@@ -32,7 +33,7 @@ const MenusModel = sequelize.define('menus', {
     },
     type: {
         type: Sequelize.CHAR(1),
-        defaultValue: 'C'
+        defaultValue: 'M'
     },
     icon: {
         type: Sequelize.STRING(255)

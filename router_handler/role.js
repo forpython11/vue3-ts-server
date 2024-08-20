@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-08-14 11:16:31
  * @LastEditors: cproud1212 2411807384@qq.com
- * @LastEditTime: 2024-08-14 15:58:48
+ * @LastEditTime: 2024-08-19 15:20:40
  * @FilePath: \vue3-ts-server\router_handler\role.js
  * @Description: cxx
  */
@@ -117,6 +117,52 @@ exports.editRole = (req, res, next) => {
             code: 0,
             message: '修改成功',
             data: role
+        })
+    })
+}
+
+// 分配角色资源
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * 菜单数组menu_ids和按钮数组permIds
+ */
+exports.updateResource = (req, res) => {
+    const role_id = req.query.role_id;
+    const data = req.body;
+    const all_ids = data.menu_ids.concat(data.permIds);
+    RoleModel.updateResource(role_id, all_ids).then(function (resource) {
+        if (resource !== true) {
+            return res.send({
+                code: 1,
+                message: '修改失败',
+                data: null
+            });
+        }
+        return res.send({
+            code: 0,
+            message: '修改成功',
+            data: resource
+        });
+    });
+}
+
+// 获取角色
+exports.getRoleResource = (req, res) => {
+    const role_id = req.query.role_id;
+    RoleModel.getResource(role_id).then((resource) => {
+        if (!resource) {
+            return res.send({
+                code: 1,
+                message: '获取失败',
+                data: null
+            })
+        }
+        return res.send({
+            code: 0,
+            message: '获取成功',
+            data: resource
         })
     })
 }
